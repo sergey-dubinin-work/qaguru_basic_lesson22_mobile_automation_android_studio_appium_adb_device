@@ -1,5 +1,6 @@
 plugins{
     id 'java-library'
+    id 'io.qameta.allure' version "2.12.0"
 }
 
 
@@ -8,11 +9,32 @@ repositories {
 }
 
 def jUnitVersion = "6.0.0-M1",
-    slf4jVersion = "2.0.17"
+    slf4jVersion = "2.0.17",
+    selenideAppiumVersion = "7.9.4",
+    apacheCommonsIOVersion = "2.20.0",
+    allureVersion = '2.29.0'
+
+allure {
+    report {
+        version.set(allureVersion)
+    }
+    adapter {
+        autoconfigure.set(true)
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5{
+                adapterVersion.set(allureVersion)
+            }
+        }
+    }
+}
 
 dependencies {
     testImplementation(
-            "org.junit.jupiter:junit-jupiter-api:$jUnitVersion"
+            "org.junit.jupiter:junit-jupiter-api:$jUnitVersion",
+            "com.codeborne:selenide-appium:$selenideAppiumVersion",
+            "io.qameta.allure:allure-selenide:$allureVersion",
+            "commons-io:commons-io:$apacheCommonsIOVersion"
     )
     testRuntimeOnly(
             "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion",
